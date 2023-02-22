@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+       textarea{
+         margin: 10px;
+         padding: 10px;
+
+        }
+    </style>
+</head>
+<body id="body">
+<div class="body">
+
+    <p>제목</p>
+    <input th:value= "${board.getTitle()}" type="text" name="title"/>
+    <p>내용</p>
+    <input th:value= "${board.getContent()}" type="text" name="content"/>
+
+</div>
+<hr>
+<div>
+    <form id="replyForm">
+        <p>댓글 내용</p>
+      <input name="replyContent">
+        <p>작성자</p>
+        <input name="writer">
+        <p>비밀번호</p>
+        <input name="password">
+     <button type="button" onclick="sendData()">작성</button>
+    </form>
+</div>
+<script>
+        jQuery.fn.serializeObject = function() {
+            var obj = null;
+            try {
+                if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+                    var arr = this.serializeArray();
+                    if (arr) {
+                        obj = {};
+                        jQuery.each(arr, function() {
+                            obj[this.name] = this.value;
+                        });
+                    }//if ( arr ) {
+                }
+            } catch (e) {
+                alert(e.message);
+            } finally {
+            }
+
+            return obj;
+        };
+
+        function sendData() {
+            let data1 = $('#replyForm').serializeObject();
+            let data2 = JSON.stringify(data1);
+            console.log(data1);
+            console.log(data2);
+            $.ajax({
+                type: 'PUT',
+                url : '/reply',
+                contentType: 'application/json; charset=utf-8',
+                data: data2,
+                dataType: 'json',
+                success: function(result){
+                    //작업이 성공적으로 발생했을 경우
+                },
+                error:function(){
+                    //에러가 났을 경우 실행시킬 코드
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>
