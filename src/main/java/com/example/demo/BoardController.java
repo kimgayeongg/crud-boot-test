@@ -26,7 +26,8 @@ public class BoardController {
     public String createPage(BoardDTO dto, RedirectAttributes redirectAttributes) {
 
         Board saveBoard = boardService.saveNewBoard(dto); //boardService에 saveNewBoard를 만들어주고 그 안에 dto를 전달
-        redirectAttributes.addAttribute("id",saveBoard.getId()); //save를 해주면 DB에 저장
+       redirectAttributes.addAttribute("id", saveBoard.getId()); //save를 해주면 DB에 저장
+
         return "redirect:/detail/{id}";
     }
 
